@@ -1,7 +1,10 @@
+package utils;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import org.junit.Before;
-import org.junit.After;
+
 import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.URL;
 
@@ -10,10 +13,9 @@ import java.net.URL;
  */
 
 public class AppTestBase {
+    private static AppiumDriver driver;
 
-    private AppiumDriver driver;
-
-    @Before
+    @Before("@appium")
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -30,5 +32,9 @@ public class AppTestBase {
     @After
     public void tearDown(){
         driver.quit();
+    }
+
+    public static AppiumDriver getDriver(){
+        return driver;
     }
 }
