@@ -8,3 +8,30 @@ Feature: Log-In Page
     And I watch input server credentials field
     And I watch input field description
     And I watch ACTIVATE button
+
+  @appium
+  Scenario: Input empty credentials field
+    Given I am open app
+    When I watch input server credentials field
+    Then I clear input field
+    And I click to ACTIVATE button
+    And Watch error message
+
+  @appium
+  Scenario Outline: Validate credentials field
+    Given I am open app
+    When I watch input server credentials field
+    Then I clear input field
+    And I try enter with "<credentials>"
+    And I click to ACTIVATE button
+    And I watch error pop-up
+
+  Examples:
+  | credentials |
+  | 42452645264 |
+  | wrwwerwrwrw |
+  | !@##$%$##$% |
+
+  @appium
+  Scenario: Second Display Check
+    Given I am watch second screen

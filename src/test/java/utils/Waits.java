@@ -24,4 +24,17 @@ public class Waits {
             throw new AssertionError(message+" "+errorMessage);
         }
     }
+
+    public static WebElement waitForElementAndClick(AppiumDriver driver, By by, String errMessage, int timeOut){
+        WebElement element = waitForElementPresent(driver,by,errMessage,timeOut);
+        element.click();
+        return element;
+    }
+
+    public static WebElement waitForElementAndSendKeys(AppiumDriver driver, By by, String value, String errMessage, int timeOut){
+        WebElement element = waitForElementPresent(driver,by,errMessage,timeOut);
+        element.clear();
+        element.sendKeys(value);
+        return element;
+    }
 }
