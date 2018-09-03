@@ -6,8 +6,6 @@ import io.qameta.allure.Epic;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
-
 /**
  * created by Andrey Melnichenko at 11:03 28-08-2018
  */
@@ -23,6 +21,4 @@ public class ApiTest extends ApiTestBase {
         Assert.assertEquals(key,appKey.getRegkey());
         Assert.assertEquals("https://goto.my-mobile.services/ProcessCoach/app/",appKey.getServer());
     }
-
-
 }
