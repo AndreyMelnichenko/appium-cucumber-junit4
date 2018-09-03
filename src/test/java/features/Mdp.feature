@@ -1,6 +1,7 @@
 Feature: Log-In Page
 
   @appium
+  @login
   Scenario: Enter to App
     Given I am open app
     When  I watch logo
@@ -33,5 +34,9 @@ Feature: Log-In Page
   | !@##$%$##$% |
 
   @appium
+  @firstscreen
   Scenario: Second Display Check
-    Given I am watch second screen
+    Given I am open app
+    When I fill credentials field with "mobox.ua"
+    Then I click to ACTIVATE button
+    And I am watch second screen

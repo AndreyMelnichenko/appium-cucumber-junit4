@@ -15,7 +15,7 @@ import java.net.URL;
 public class AppTestBase {
     private static AppiumDriver driver;
 
-    @Before("@appium")
+    @Before//("@appium")
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 

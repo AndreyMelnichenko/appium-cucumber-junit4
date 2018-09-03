@@ -128,8 +128,19 @@ public class AppTest {
 
     //----------------------------------------------------------------------------------------------
 
+    @When("^I fill credentials field with \"([^\"]*)\"$")
+    public void goToSecondScreen(String cred) throws Throwable{
+        Waits.waitForElementAndSendKeys(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextServerUri']"),
+                cred,
+                "Cannot find input server credentials field",
+                5);
+    }
+
     @Given("^I am watch second screen$")
     public void iAmWatchSecondScreen() {
-
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
+                "Cannot find LOGO");
     }
 }

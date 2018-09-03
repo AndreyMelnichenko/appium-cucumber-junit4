@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
         features = "src/test/java/features/Mdp.feature",
         plugin = {"pretty", "html:target/cucumber-html-reports", "json:target/cucumber.json"},
         glue = {"steps", "utils"},
-        tags = {"@appium"},
+        tags = {"@appium","@login","@firstScreen"},
         snippets = SnippetType.UNDERSCORE)
 
 public class RunnerTest {
