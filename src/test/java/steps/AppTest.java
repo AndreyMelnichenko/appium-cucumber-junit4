@@ -1,16 +1,11 @@
 package steps;
 
-import cucumber.api.PendingException;
-import junitparams.FileParameters;
-import junitparams.JUnitParamsRunner;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.appium.java_client.AppiumDriver;
-import junitparams.mappers.CsvWithHeaderMapper;
 import org.junit.Assert;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.AppTestBase;
@@ -29,12 +24,7 @@ public class AppTest {
 
     @Given("^I am open app$")
     public void runApp(){
-        System.out.println("Run App");
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("======Run App======");
     }
 
     @When("^I watch logo$")
@@ -129,7 +119,7 @@ public class AppTest {
     //----------------------------------------------------------------------------------------------
 
     @When("^I fill credentials field with \"([^\"]*)\"$")
-    public void goToSecondScreen(String cred) throws Throwable{
+    public void fillCredentials(String cred) throws Throwable{
         Waits.waitForElementAndSendKeys(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/editTextServerUri']"),
                 cred,
@@ -142,5 +132,66 @@ public class AppTest {
         Waits.assertElementPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
                 "Cannot find LOGO");
+    }
+
+    @And("^CheckBox click$")
+    public void checkboxCkick() {
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/multyDownloadCheckBox']"),
+                "Cannot find check box",
+        5);
+    }
+
+    @And("^Try to enter with empty fields$")
+    public void emptyLogPassEnter(){
+        Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextUser']"),
+                "Cannot find login field",
+                5).clear();
+        clearPasswordField();
+        clickLogin();
+    }
+    @And("^Watch error message as \"([^\"]*)\"$")
+    public void emptyUserNameError(String textError){
+        String actuelErrorText = Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/textinput_error']"),
+                "Cannot find error message",
+                5).getAttribute("text");
+        Assert.assertEquals("Error mesages not equals", textError, actuelErrorText);
+    }
+
+    @When("^I go to second screen with \"([^\"]*)\"$")
+    public void goToSeconScreen(String cred) throws Throwable {
+        fillCredentials(cred);
+        clickToActivate();
+    }
+
+    @And("^I fill login \"([^\"]*)\"$")
+    public void fillLogin(String login){
+        Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextUser']"),
+                "Cannot find login field",
+                5).clear();
+        Waits.waitForElementAndSendKeys(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextUser']"),
+                login,
+                "Cannot find login field",
+                5);
+    }
+
+    @Then("^I click to LOGIN button$")
+    public void clickLogin(){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/buttonLogin']"),
+                "Cannot find/click on button",
+                5);
+    }
+
+    @And("^I clear password field$")
+    public void clearPasswordField(){
+        Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextPassword']"),
+                "Cannot find password field",
+                5).clear();
     }
 }

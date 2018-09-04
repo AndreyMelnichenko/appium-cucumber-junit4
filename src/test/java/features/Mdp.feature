@@ -1,6 +1,6 @@
 Feature: Log-In Page
 
-  @appium
+  @all
   @login
   Scenario: Enter to App
     Given I am open app
@@ -10,7 +10,7 @@ Feature: Log-In Page
     And I watch input field description
     And I watch ACTIVATE button
 
-  @appium
+  @all
   Scenario: Input empty credentials field
     Given I am open app
     When I watch input server credentials field
@@ -18,7 +18,7 @@ Feature: Log-In Page
     And I click to ACTIVATE button
     And Watch error message
 
-  @appium
+  @all
   Scenario Outline: Validate credentials field
     Given I am open app
     When I watch input server credentials field
@@ -33,10 +33,31 @@ Feature: Log-In Page
   | wrwwerwrwrw |
   | !@##$%$##$% |
 
-  @appium
+  @all
   @firstscreen
   Scenario: Second Display Check
     Given I am open app
     When I fill credentials field with "mobox.ua"
     Then I click to ACTIVATE button
     And I am watch second screen
+
+  @all
+  Scenario: Enter with empty LOGIN and PASSWORD
+    Given I am open app
+    When I fill credentials field with "mobox.ua"
+    And I click to ACTIVATE button
+    Then I am watch second screen
+    And CheckBox click
+    And Try to enter with empty fields
+    And Watch error message as "user cannot be empty"
+
+  @all
+  @secondScreen
+  Scenario: Enter with empty PASSWORD
+    Given I am open app
+    When I go to second screen with "mobox.ua"
+    And CheckBox click
+    And I fill login "user"
+    And I clear password field
+    Then I click to LOGIN button
+    And Watch error message as "Password cannot be empty"
