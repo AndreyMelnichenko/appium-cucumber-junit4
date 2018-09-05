@@ -67,8 +67,8 @@ Feature: Log-In Page
       Given I go to second screen with "mobox.ua"
       When I watch second screen
       Then I watch cogwheel and click on it
-      And I may check text on pop-up
-      And I may erase access to server
-      And I watch logo
+      #And I may check text on pop-up
+      #And I may erase access to server
+      #And I watch logo
 
-    Scenario: Cancel to erase access
+    #Scenario: Cancel to erase access

@@ -83,16 +83,10 @@
             <version>${lombok.version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <version>1.9.1</version>
+            <!--<scope>compile</scope>-->
         </dependency>
     </dependencies>
     <build>
