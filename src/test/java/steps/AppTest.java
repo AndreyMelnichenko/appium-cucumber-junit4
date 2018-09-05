@@ -29,10 +29,9 @@ public class AppTest {
 
     @When("^I watch logo$")
     public void isLogoDisplayed(){
-        Assert.assertTrue(Waits.waitForElementPresent(driver,
+        Waits.assertElementPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
-                "Cannot find MDP Logo",
-                5).isDisplayed());
+                "Cannot find MDP Logo");
     }
 
     @Then("^I watch Hello message$")
@@ -127,8 +126,22 @@ public class AppTest {
                 5);
     }
 
-    @Given("^I am watch second screen$")
+    @And("^I am watch second screen$")
     public void iAmWatchSecondScreen() {
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
+                "Cannot find LOGO");
+    }
+
+    @Then("^I should watch second screen$")
+    public void thenIsSecondScreen(){
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
+                "Cannot find LOGO");
+    }
+
+    @When("^I watch second screen$")
+    public void whenIsSecondScreen(){
         Waits.assertElementPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
                 "Cannot find LOGO");
@@ -193,5 +206,52 @@ public class AppTest {
                 By.xpath("//*[@resource-id='de.modern_paper:id/editTextPassword']"),
                 "Cannot find password field",
                 5).clear();
+    }
+
+    @Then("^I watch cogwheel and click on it$")
+    public void cogwheelClick(){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/settingButton']"),
+                "Cannot find cofwheel",
+                5);
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/title']"),
+                "Cannot find menu item",
+                5);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @And("^I may check text on pop-up$")
+    public void checkPopUpText(){
+        String hederText = Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/headerText']"),
+                "\n\n\nCannot find Header text\n\n\n",
+                15).getAttribute("text");
+        Assert.assertEquals("\n\n\nUnexpected heder text\n\n\n",hederText,"Reset ProcessCoach 4");
+        String descrText = Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/descriptionText']"),
+                "\n\n\nCannot find Header text\n\n\n",
+                15).getAttribute("text");
+        Assert.assertEquals("\n\n\nUnexpected description text\n\n\n",descrText,"Do you want to reset the ProcessCoach 4 to the delivery state");
+    }
+
+    @And("^I may erase access to server$")
+    public void eraseAccess(){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/buttonReset']"),
+                "Cannot find RESET bitton",
+                5);
+    }
+
+    @And("^I may cancel to erase access$")
+    public void canceslAccess(){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/buttonCancel']"),
+                "Cannot find RESET bitton",
+                10);
     }
 }

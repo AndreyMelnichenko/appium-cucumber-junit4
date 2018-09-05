@@ -39,14 +39,14 @@ Feature: Log-In Page
     Given I am open app
     When I fill credentials field with "mobox.ua"
     Then I click to ACTIVATE button
-    And I am watch second screen
+    And I watch logo
 
   @all
   Scenario: Enter with empty LOGIN and PASSWORD
     Given I am open app
     When I fill credentials field with "mobox.ua"
     And I click to ACTIVATE button
-    Then I am watch second screen
+    Then I should watch second screen
     And CheckBox click
     And Try to enter with empty fields
     And Watch error message as "user cannot be empty"
@@ -61,3 +61,14 @@ Feature: Log-In Page
     And I clear password field
     Then I click to LOGIN button
     And Watch error message as "Password cannot be empty"
+
+    @debug
+    Scenario: Cogwheel test
+      Given I go to second screen with "mobox.ua"
+      When I watch second screen
+      Then I watch cogwheel and click on it
+      And I may check text on pop-up
+      And I may erase access to server
+      And I watch logo
+
+    Scenario: Cancel to erase access
