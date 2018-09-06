@@ -1,5 +1,6 @@
 package steps;
 
+import activities.AppActivities;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -18,6 +19,8 @@ import utils.Waits;
 public class AppTest {
     private AppiumDriver driver;
 
+    private AppActivities activities = new AppActivities();
+
     public AppTest(){
         this.driver = AppTestBase.getDriver();
     }
@@ -29,23 +32,17 @@ public class AppTest {
 
     @When("^I watch logo$")
     public void isLogoDisplayed(){
-        Waits.assertElementPresent(driver,
-                By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
-                "Cannot find MDP Logo");
+        activities.isFirstLogoDisplayed(driver);
     }
 
     @Then("^I watch Hello message$")
     public void isHelloMessage(){
-        Waits.assertElementPresent(driver,
-                By.xpath("//*[@resource-id='de.modern_paper:id/modernPaperHerzlicText']"),
-                "Hello message not found");
+        activities.isHelloMessage(driver);
     }
 
     @Then("^I watch input server credentials field$")
     public void inputForm(){
-        Waits.assertElementPresent(driver,
-                By.xpath("//*[@resource-id='de.modern_paper:id/editTextServerUri']"),
-                "Cannot find input server credentials field");
+        activities.isInputServerKey(driver);
     }
 
     @Then("^I watch input field description$")
@@ -118,7 +115,7 @@ public class AppTest {
     //----------------------------------------------------------------------------------------------
 
     @When("^I fill credentials field with \"([^\"]*)\"$")
-    public void fillCredentials(String cred) throws Throwable{
+    public void fillCredentials(String cred){
         Waits.waitForElementAndSendKeys(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/editTextServerUri']"),
                 cred,
@@ -131,6 +128,12 @@ public class AppTest {
         Waits.assertElementPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/logo']"),
                 "Cannot find LOGO");
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextUser']"),
+                "Cannot find login field");
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/editTextPassword']"),
+                "Cannot find password field");
     }
 
     @Then("^I should watch second screen$")
@@ -174,22 +177,14 @@ public class AppTest {
     }
 
     @When("^I go to second screen with \"([^\"]*)\"$")
-    public void goToSeconScreen(String cred) throws Throwable {
+    public void goToSeconScreen(String cred) {
         fillCredentials(cred);
         clickToActivate();
     }
 
     @And("^I fill login \"([^\"]*)\"$")
     public void fillLogin(String login){
-        Waits.waitForElementPresent(driver,
-                By.xpath("//*[@resource-id='de.modern_paper:id/editTextUser']"),
-                "Cannot find login field",
-                5).clear();
-        Waits.waitForElementAndSendKeys(driver,
-                By.xpath("//*[@resource-id='de.modern_paper:id/editTextUser']"),
-                login,
-                "Cannot find login field",
-                5);
+        activities.enterLoginAndPassword(driver, login);
     }
 
     @Then("^I click to LOGIN button$")
@@ -218,11 +213,6 @@ public class AppTest {
                 By.xpath("//*[@resource-id='de.modern_paper:id/title']"),
                 "Cannot find menu item",
                 5);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @And("^I may check text on pop-up$")
@@ -244,7 +234,7 @@ public class AppTest {
         Waits.waitForElementAndClick(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/buttonReset']"),
                 "Cannot find RESET bitton",
-                5);
+                10);
     }
 
     @And("^I may cancel to erase access$")
@@ -253,5 +243,26 @@ public class AppTest {
                 By.xpath("//*[@resource-id='de.modern_paper:id/buttonCancel']"),
                 "Cannot find RESET bitton",
                 10);
+    }
+
+    @And("^I watch logo and input field to enter server credentials$")
+    public void isFirstScreen(){
+        activities.isFirstLogoDisplayed(driver);
+        activities.isInputServerKey(driver);
+    }
+
+    @And("^I fill login \"([^\"]*)\" and password \"([^\"]*)\"$")
+    public void enterToApp(String login, String pass){
+        activities.enterLoginAndPassword(driver, login, pass);
+    }
+
+    @Then("^I watch list of actions items$")
+    public void isEnteredInApp(){
+        activities.waitForWebElementCollectionPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/menuName']"),
+                30);
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/name']"),
+                "Cannot find any folders");
     }
 }

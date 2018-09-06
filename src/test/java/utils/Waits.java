@@ -37,4 +37,9 @@ public class Waits {
         element.sendKeys(value);
         return element;
     }
+    public static boolean waitForElementAndCheckText(AppiumDriver driver, By by, String errMessage, int timeOut, String expectedText){
+        WebDriverWait wait = new WebDriverWait(driver,timeOut);
+        wait.withMessage("\n\n\n"+errMessage+"\n\n\n");
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by)).getAttribute("text").equals(expectedText);
+    }
 }

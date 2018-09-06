@@ -1,7 +1,6 @@
 Feature: Log-In Page
 
   @all
-  @login
   Scenario: Enter to App
     Given I am open app
     When  I watch logo
@@ -34,7 +33,6 @@ Feature: Log-In Page
   | !@##$%$##$% |
 
   @all
-  @firstscreen
   Scenario: Second Display Check
     Given I am open app
     When I fill credentials field with "mobox.ua"
@@ -52,7 +50,6 @@ Feature: Log-In Page
     And Watch error message as "user cannot be empty"
 
   @all
-  @secondScreen
   Scenario: Enter with empty PASSWORD
     Given I am open app
     When I go to second screen with "mobox.ua"
@@ -62,13 +59,29 @@ Feature: Log-In Page
     Then I click to LOGIN button
     And Watch error message as "Password cannot be empty"
 
-    @debug
-    Scenario: Cogwheel test
-      Given I go to second screen with "mobox.ua"
-      When I watch second screen
-      Then I watch cogwheel and click on it
-      #And I may check text on pop-up
-      #And I may erase access to server
-      #And I watch logo
+  @all
+  Scenario: Cogwheel test
+     Given I go to second screen with "mobox.ua"
+     When I watch second screen
+     Then I watch cogwheel and click on it
+     And I may check text on pop-up
+     And I may erase access to server
+     And I watch logo and input field to enter server credentials
 
-    #Scenario: Cancel to erase access
+  @all
+  Scenario: Cancel to erase access
+    Given I go to second screen with "mobox.ua"
+    When I watch second screen
+    Then I watch cogwheel and click on it
+    And I may check text on pop-up
+    And I may cancel to erase access
+    And I am watch second screen
+
+  @all
+  Scenario: Enter inside App
+    Given I go to second screen with "mobox.ua"
+    When I watch second screen
+    And I fill login "admin@mobox.ua" and password "12341234"
+    And CheckBox click
+    And I click to LOGIN button
+    Then I watch list of actions items
