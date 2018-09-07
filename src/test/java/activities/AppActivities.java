@@ -2,19 +2,27 @@ package activities;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Waits;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+
+import static utils.StringReformate.cutString;
 
 /**
  * created by Andrey Melnichenko at 10:31 06-09-2018
  */
 
 public class AppActivities {
+    private static String enteredText;
 
     public void isFirstLogoDisplayed(AppiumDriver driver){
         Waits.assertElementPresent(driver,
@@ -101,7 +109,7 @@ public class AppActivities {
                 15);
     }
 
-    public void tapOnField(AppiumDriver driver){
+    public void tapOnFieldAndSendKeys(AppiumDriver driver, String text){
         Waits.waitForElementPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/read_docview_ly']"),
                 "Cannot find document",
@@ -110,16 +118,80 @@ public class AppActivities {
         int y = 290;
         TouchAction action = new TouchAction(driver);
         action.press(x,y).release().perform();
+        enteredText=text+new SimpleDateFormat("_dd_MM_yy_HH_mm").format(Calendar.getInstance().getTime());
         Waits.waitForElementAndSendKeys(driver,
                 By.className("android.widget.EditText"),
-                "Test text by Andrey",
+                enteredText,
                 "Cannot find text area",
                 15);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
+    public void clickDone(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/rv_form_finish'][1]"),
+                "Cannot find BACK button",
+                5);
+    }
+
+    public void backToDocumentsList(AppiumDriver driver){
+        List<WebElement> buttonList = Waits.waitForWebElementCollectionPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/read_top_bar_ly']/*[@class='android.widget.LinearLayout']/*[@class='android.widget.RelativeLayout']/*[@class='android.widget.LinearLayout']/*[@class='android.widget.LinearLayout']/*[@class='android.widget.ImageView']"),
+                5);
+        //System.out.println(buttonList.size());
+        buttonList.get(0).click();
+    }
+
+    public void clickToSave(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@text='Save']"),
+                "Cannot find a SAVE button",
+                5);
+    }
+
+    public void clickOnUpload(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@text='Upload']"),
+                "Cannot find a Upload button",
+                5);
+    }
+
+    public void isListOfDocumentsAppeared(AppiumDriver driver){
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/folderNameTxt']"),
+                "Cannot find documents list in folder");
+    }
+
+    public void backToItenList(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/toolbarDocuments']/*[@class='android.widget.ImageButton']"),
+                "Cannot find BACK button", 5);
+    }
+
+    public void goToNeedMenuItem(AppiumDriver driver, String menuItem){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@text='"+menuItem+"']"),
+                "Cannot find drafts item",
+                5);
+    }
+
+    public void getDocsName(AppiumDriver driver){
+        List<WebElement> allDocs = Waits.waitForWebElementCollectionPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/postedDocumentName']"),10);
+        List<String> allNames = new ArrayList<>();
+        System.out.println(enteredText);
+        allDocs.forEach(a-> System.out.println("["+a.getAttribute("text")+"]"));
+        allDocs.forEach(a->{
+                    if(a.getAttribute("text").contains(enteredText)){
+                        allNames.add(a.getAttribute("text"));
+                    }
+                });
+        Assert.assertTrue(allNames.size()>0);
+    }
+
+    public void checkEnteredText(AppiumDriver driver){
+        String text = Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDraftFields']"),
+                "Cannot find entered text",5).getAttribute("text");
+        Assert.assertEquals(enteredText.trim(),text.trim().replace(",",""));
+    }
 }

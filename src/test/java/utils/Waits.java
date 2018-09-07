@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 /**
  * created by Andrey Melnichenko at 14:23 29-08-2018
  */
@@ -41,5 +43,11 @@ public class Waits {
         WebDriverWait wait = new WebDriverWait(driver,timeOut);
         wait.withMessage("\n\n\n"+errMessage+"\n\n\n");
         return wait.until(ExpectedConditions.presenceOfElementLocated(by)).getAttribute("text").equals(expectedText);
+    }
+
+    public static List<WebElement> waitForWebElementCollectionPresent(AppiumDriver driver, By by, int timeOut){
+        WebDriverWait wait = new WebDriverWait(driver, timeOut);
+        wait.withMessage("\n\n\n Element Collection not found \n\n\n");
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
 }

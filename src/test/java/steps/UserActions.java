@@ -30,13 +30,56 @@ public class UserActions {
         activities.enterToFolder(driver,folderName);
     }
 
-    @Then("^I open \"([^\"]*)\" document$")
+    @And("^I open \"([^\"]*)\" document$")
     public void openDocumnte(String docName){
         activities.openDocument(driver,docName);
     }
 
-    @And("^Tap on some field$")
-    public void tapOnField(){
-        activities.tapOnField(driver);
+    @And("^Tap on some field and send keys with \"([^\"]*)\"$")
+    public void tapOnField(String text){
+        activities.tapOnFieldAndSendKeys(driver, text);
+    }
+
+    @And("^Tap Done button$")
+    public void clickDone(){
+        activities.clickDone(driver);
+    }
+
+    @And("^Upload and Back to docs list$")
+    public void uploadDoc(){
+        activities.backToDocumentsList(driver);
+        activities.clickOnUpload(driver);
+    }
+
+    @And("^Save and Back to docs list$")
+    public void saveDoc(){
+        activities.backToDocumentsList(driver);
+        activities.clickToSave(driver);
+    }
+
+    @Then("^I back to main screen$")
+    public void amIinFolder(){
+        activities.isListOfDocumentsAppeared(driver);
+        activities.backToItenList(driver);
+    }
+
+    @Given("^User enter into App$")
+    public void goToTestFolder(){
+        enterToApp("mobox.ua", "admin@mobox.ua", "12341234");
+    }
+
+    @And("^User go to \"([^\"]*)\"$")
+    public void goToNeedMenuItem(String menuItem){
+        activities.goToNeedMenuItem(driver,menuItem);
+    }
+
+    @And("^Check entered text$")
+    public void checkEnetredText(){
+        activities.checkEnteredText(driver);
+    }
+
+    @And("^Check Posted document$")
+    public void checkPostedDoc(){
+        activities.getDocsName(driver);
     }
 }
