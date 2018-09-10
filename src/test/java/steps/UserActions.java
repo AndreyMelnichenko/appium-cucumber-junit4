@@ -32,7 +32,7 @@ public class UserActions {
 
     @And("^I open \"([^\"]*)\" document$")
     public void openDocumnte(String docName){
-        activities.openDocument(driver,docName);
+        activities.clickElementByName(driver,docName);
     }
 
     @And("^Tap on some field and send keys with \"([^\"]*)\"$")

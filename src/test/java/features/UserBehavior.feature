@@ -24,7 +24,7 @@ Feature: User Behavior
     And User go to "Posted"
     And Check Posted document
 
-  @debug
+  @all
   Scenario: Cancel send document to server
     Given I entered into "mobox.ua" login "admin@mobox.ua" and password "12341234"
     When I open "Testing" folder

@@ -7,21 +7,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.RandomMinMax;
 import utils.Waits;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
-import static utils.StringReformate.cutString;
 
 /**
  * created by Andrey Melnichenko at 10:31 06-09-2018
  */
 
 public class AppActivities {
+    private static final String
+        SEARCH_RESULT_LIST="//*[@resource-id='de.modern_paper:id/searchCategoryDataName']";
+
     private static String enteredText;
 
     public void isFirstLogoDisplayed(AppiumDriver driver){
@@ -102,11 +103,17 @@ public class AppActivities {
                 15);
     }
 
-    public void openDocument(AppiumDriver driver, String docName){
+    public void clickElementByName(AppiumDriver driver, String docName){
         Waits.waitForElementAndClick(driver,
                 By.xpath("//*[@text='"+docName+"']"),
                 "Cannot find folder "+docName,
                 15);
+    }
+
+    public void isOnScreenByElementName(AppiumDriver driver, String elementName){
+        Waits.waitForElementPresent(driver,By.xpath("//*[@text='"+elementName+"']"),"Cannot find element ["+elementName+"]", 10);
+        Waits.assertElementPresent(driver,
+                By.xpath("//*[@text='"+elementName+"']"),"Cannot find element ["+elementName+"]");
     }
 
     public void tapOnFieldAndSendKeys(AppiumDriver driver, String text){
@@ -122,6 +129,14 @@ public class AppActivities {
         Waits.waitForElementAndSendKeys(driver,
                 By.className("android.widget.EditText"),
                 enteredText,
+                "Cannot find text area",
+                15);
+    }
+
+    public void sendKeysToElementByText(AppiumDriver driver, String elementText, String sendText){
+        Waits.waitForElementAndSendKeys(driver,
+                By.xpath("//*[@text='"+elementText+"']"),
+                sendText,
                 "Cannot find text area",
                 15);
     }
@@ -177,7 +192,7 @@ public class AppActivities {
     public void goToNeedMenuItem(AppiumDriver driver, String menuItem){
         Waits.waitForElementAndClick(driver,
                 By.xpath("//*[@text='"+menuItem+"']"),
-                "Cannot find drafts item",
+                "Cannot find ["+menuItem+"] item",
                 5);
     }
 
@@ -207,4 +222,40 @@ public class AppActivities {
                 By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDraftFields']"),
                 "Cannot find entered text",5));
     }
+
+    public boolean checkDataSearchItem(AppiumDriver driver){
+        List<WebElement> subItems = Waits.waitForWebElementCollectionPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/searchCategoryName']"), 10);
+
+        String time = driver.getDeviceTime();
+        //new SimpleDateFormat("dd.MM.yyyy HH.mm").format(time)
+        System.out.println(time);
+        if(subItems.size()>0){return true;}
+        else {return false;}
+    }
+
+    public void isContainedText(AppiumDriver driver, String searchedText){
+        List<WebElement> allDocs = Waits.waitForWebElementCollectionPresent(driver,
+                By.xpath(SEARCH_RESULT_LIST),10);
+        List<String> allNames = new ArrayList<>();
+        allDocs.forEach(a-> System.out.println("["+a.getAttribute("text")+"]"));
+        allDocs.forEach(a->{
+            if(a.getAttribute("text").toLowerCase().contains(searchedText)){
+                allNames.add(a.getAttribute("text"));
+            }
+        });
+        Assert.assertEquals(allNames.size(), allDocs.size());
+    }
+
+    public void clickOnRandomsearchResult(AppiumDriver driver){
+        List<WebElement> allDocs = Waits.waitForWebElementCollectionPresent(driver,
+                By.xpath(SEARCH_RESULT_LIST),10);
+        allDocs.get(RandomMinMax.Go(0,allDocs.size()-1)).click();
+    }
+
+    public void clickOnAssociatedDoc(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver, By.xpath("//*[@resource-id='de.modern_paper:id/openAssosiatedDocBtn']"),
+                "Canot find associated button",10);
+    }
+
 }
