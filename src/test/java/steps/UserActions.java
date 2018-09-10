@@ -78,8 +78,19 @@ public class UserActions {
         activities.checkEnteredText(driver);
     }
 
+    @And("^Check clear doc")
+    public void checkEmptyDocument(){
+        activities.checkEnteredTextNotPresent(driver);
+    }
+
     @And("^Check Posted document$")
     public void checkPostedDoc(){
         activities.getDocsName(driver);
+    }
+
+    @And("^Discard changes and Back to docs list$")
+    public void clickDiscardChanges(){
+        activities.backToDocumentsList(driver);
+        activities.clickOnDiscard(driver);
     }
 }

@@ -155,6 +155,13 @@ public class AppActivities {
                 5);
     }
 
+    public void clickOnDiscard(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@text='Discard changes']"),
+                "Cannot find a Discard button",
+                10);
+    }
+
     public void isListOfDocumentsAppeared(AppiumDriver driver){
         Waits.assertElementPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/folderNameTxt']"),
@@ -193,5 +200,11 @@ public class AppActivities {
                 By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDraftFields']"),
                 "Cannot find entered text",5).getAttribute("text");
         Assert.assertEquals(enteredText.trim(),text.trim().replace(",",""));
+    }
+
+    public void checkEnteredTextNotPresent(AppiumDriver driver){
+        Assert.assertTrue(Waits.waitForElementNotPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDraftFields']"),
+                "Cannot find entered text",5));
     }
 }

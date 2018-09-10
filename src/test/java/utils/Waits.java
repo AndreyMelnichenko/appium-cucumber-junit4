@@ -20,6 +20,12 @@ public class Waits {
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
+    public static boolean waitForElementNotPresent(AppiumDriver driver, By by, String errMessage, int timeOut){
+        WebDriverWait wait = new WebDriverWait(driver,timeOut);
+        wait.withMessage("\n\n\n"+errMessage+"\n\n\n");
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+
     public static void assertElementPresent(AppiumDriver driver, By by, String errorMessage){
         if(!driver.findElement(by).isDisplayed()){
             String message = "An elements ["+by.toString()+"] not present";
