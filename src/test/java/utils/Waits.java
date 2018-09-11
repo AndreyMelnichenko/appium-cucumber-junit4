@@ -53,7 +53,7 @@ public class Waits {
 
     public static List<WebElement> waitForWebElementCollectionPresent(AppiumDriver driver, By by, int timeOut){
         WebDriverWait wait = new WebDriverWait(driver, timeOut);
-        wait.withMessage("\n\n\n Element Collection not found \n\n\n");
+        wait.withMessage("\n\n\n Element Collection not found by "+by.toString()+" \n\n\n");
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
 }

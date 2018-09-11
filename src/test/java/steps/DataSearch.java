@@ -53,8 +53,22 @@ public class DataSearch {
         activities.clickOnRandomsearchResult(driver);
     }
 
-    @And("^Click on associated doc$")
+    @And("^Show associated docs$")
     public void clickOnAssociatedDoc() {
-        activities.clickOnAssociatedDoc(driver);
+        activities.showAssociatedDocs(driver);
+    }
+
+    @And("^Click to doc to insert data$")
+    public void clickToDocToInsertData() {
+        activities.cliclOnFirstDocument(driver); // data save
+    }
+
+    @And("^Check doc into draft$")
+    public void checkDocIntoDraft() {
+        activities.backToDocumentsList(driver);
+        activities.clickToSave(driver);
+        activities.clickOnHome(driver);
+        activities.goToNeedMenuItem(driver,"drafts");
+        activities.compareDocNames(driver);
     }
 }

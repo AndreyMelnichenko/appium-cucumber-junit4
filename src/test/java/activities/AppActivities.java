@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.RandomMinMax;
+import utils.TimeConvertor;
 import utils.Waits;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +24,7 @@ public class AppActivities {
     private static final String
         SEARCH_RESULT_LIST="//*[@resource-id='de.modern_paper:id/searchCategoryDataName']";
 
-    private static String enteredText;
+    private static String enteredText, docName, deviceTime;
 
     public void isFirstLogoDisplayed(AppiumDriver driver){
         Waits.assertElementPresent(driver,
@@ -226,10 +227,6 @@ public class AppActivities {
     public boolean checkDataSearchItem(AppiumDriver driver){
         List<WebElement> subItems = Waits.waitForWebElementCollectionPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/searchCategoryName']"), 10);
-
-        String time = driver.getDeviceTime();
-        //new SimpleDateFormat("dd.MM.yyyy HH.mm").format(time)
-        System.out.println(time);
         if(subItems.size()>0){return true;}
         else {return false;}
     }
@@ -253,9 +250,43 @@ public class AppActivities {
         allDocs.get(RandomMinMax.Go(0,allDocs.size()-1)).click();
     }
 
-    public void clickOnAssociatedDoc(AppiumDriver driver){
-        Waits.waitForElementAndClick(driver, By.xpath("//*[@resource-id='de.modern_paper:id/openAssosiatedDocBtn']"),
-                "Canot find associated button",10);
+    public void showAssociatedDocs(AppiumDriver driver){
+        List<WebElement> docList = Waits.waitForWebElementCollectionPresent(driver,
+                By.className("android.widget.Button"),
+                10);
+        //System.out.println(docList.size());
+        docList.get(1).click();
+        System.out.println("Click!");
     }
 
+    public void cliclOnFirstDocument(AppiumDriver driver){
+        List<WebElement> docList = Waits.waitForWebElementCollectionPresent(driver, By.xpath("//*[@resource-id='de.modern_paper:id/documentName']"), 15);
+        docName=docList.get(0).getAttribute("text");
+        deviceTime=TimeConvertor.getTime(driver.getDeviceTime());
+        System.out.println("Device time: "+driver.getDeviceTime());
+        System.out.println("Expected filename: "+docList.get(0).getAttribute("text")+" "+deviceTime);
+        //System.out.println(docList.size());
+        docList.get(0).click();
+        Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/read_docview_ly']"),
+                "Cannot find document",
+                15);
+    }
+
+    public void clickOnHome(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver, By.xpath("//*[@resource-id='de.modern_paper:id/homeButton']"),"Cannot find HOME",10);
+    }
+
+    public void compareDocNames(AppiumDriver driver){
+        System.out.println(docName+" "+deviceTime);
+        List<WebElement> allDocs = Waits.waitForWebElementCollectionPresent(driver,By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkName']"),10);
+        List<String> allNames = new ArrayList<>();
+        allDocs.forEach(a-> System.out.println("["+a.getAttribute("text")+"]"));
+        allDocs.forEach(a->{
+            if(a.getAttribute("text").contains(docName)){ //+" "+deviceTime
+                allNames.add(a.getAttribute("text"));
+            }
+        });
+        Assert.assertTrue(allNames.size()>0);
+    }
 }

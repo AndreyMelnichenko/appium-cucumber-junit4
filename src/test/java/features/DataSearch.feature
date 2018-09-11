@@ -10,4 +10,6 @@ Feature: Data Search Feature
     Then I am watch search result by "Search results"
     And All found elements should contain "gmbh"
     And Click on random doc
-    And Click on associated doc
+    And Show associated docs
+    And Click to doc to insert data
+    And Check doc into draft
