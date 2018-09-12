@@ -22,6 +22,7 @@ public class AppTestBase {
         capabilities.setCapability("platformName","Android");
         capabilities.setCapability("deviceName","androidTestDevice");
         capabilities.setCapability("platformVersion","5.1");
+        //capabilities.setCapability("platformVersion","6.0");
         capabilities.setCapability("automationName","Appium");
         capabilities.setCapability("appPackage","de.modern_paper");
         capabilities.setCapability("appActivity",".ui.activity.ActivationActivity");

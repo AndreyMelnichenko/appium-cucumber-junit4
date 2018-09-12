@@ -283,10 +283,16 @@ public class AppActivities {
         List<String> allNames = new ArrayList<>();
         allDocs.forEach(a-> System.out.println("["+a.getAttribute("text")+"]"));
         allDocs.forEach(a->{
-            if(a.getAttribute("text").contains(docName)){ //+" "+deviceTime
+            if(a.getAttribute("text").equals(docName+" "+deviceTime)){
                 allNames.add(a.getAttribute("text"));
             }
         });
         Assert.assertTrue(allNames.size()>0);
+    }
+
+    public void clickOnDeleteFromDraft(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@recource-id='de.modern_paper:id/documentInWorkDeleteIconView']"),
+                "Cannot find DELTE button", 5);
     }
 }

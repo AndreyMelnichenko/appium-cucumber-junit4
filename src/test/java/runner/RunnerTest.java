@@ -11,10 +11,10 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 
 @CucumberOptions(
-        features = {"src/test/java/features/Mdp.feature","src/test/java/features/UserBehavior.feature","src/test/java/features/DataSearch.feature"},
+        features = {"src/test/java/features"}, ///EnterToApp.feature","src/test/java/features/DocumentActions.feature","src/test/java/features/DataSearch.feature
         plugin = {"pretty", "html:target/cucumber-html-reports", "json:target/cucumber.json"},
         glue = {"steps", "utils"},
-        tags = {"@all","@userAction","@debug"},
+        tags = {"@debug"}, //"@all","@userAction",
         snippets = SnippetType.UNDERSCORE)
 
 public class RunnerTest {

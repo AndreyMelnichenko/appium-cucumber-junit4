@@ -56,4 +56,12 @@ public class Waits {
         wait.withMessage("\n\n\n Element Collection not found by "+by.toString()+" \n\n\n");
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
+
+    public static void sleepTest(int timeOut){
+        try {
+            Thread.sleep(timeOut*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

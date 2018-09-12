@@ -1,4 +1,4 @@
-Feature: User Behavior
+Feature: Actions with docs
 
   @all
   Scenario: Change document and Save

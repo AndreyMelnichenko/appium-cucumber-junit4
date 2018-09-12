@@ -1,6 +1,6 @@
 Feature: Data Search Feature
 
-  @debug
+  @all
   Scenario: Insert Data to doc
     Given I entered into "mobox.ua" login "admin@mobox.ua" and password "12341234"
     And User go to "Data search"
