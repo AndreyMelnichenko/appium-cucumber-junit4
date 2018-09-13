@@ -29,4 +29,9 @@ public class DraftItem {
     public void clickOnDeleteButton() {
         activities.clickOnDeleteFromDraft(driver);
     }
+
+    @And("^Confirm Delete$")
+    public void confirmDelete() {
+        activities.confirmDelete(driver);
+    }
 }

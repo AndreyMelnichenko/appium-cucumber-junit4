@@ -292,7 +292,13 @@ public class AppActivities {
 
     public void clickOnDeleteFromDraft(AppiumDriver driver){
         Waits.waitForElementAndClick(driver,
-                By.xpath("//*[@recource-id='de.modern_paper:id/documentInWorkDeleteIconView']"),
+                By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDeleteIconView']"),
                 "Cannot find DELTE button", 5);
+    }
+
+    public void confirmDelete(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/buttonDelete']"),
+                "Cannot confirm Delete", 5);
     }
 }
