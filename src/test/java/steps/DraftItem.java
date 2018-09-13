@@ -34,4 +34,9 @@ public class DraftItem {
     public void confirmDelete() {
         activities.confirmDelete(driver);
     }
+
+    @And("^Re-open document$")
+    public void reOpenDocument() {
+        activities.openDocInDraft(driver);
+    }
 }

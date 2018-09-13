@@ -35,3 +35,21 @@ Feature: Actions with docs
     Then I back to main screen
     And User go to "drafts"
     And Check clear doc
+
+  @debug
+  Scenario: Open Doc -> Insert info -> Save -> Draft check
+    Given I entered into "mobox.ua" login "admin@mobox.ua" and password "12341234"
+    When I open "Testing" folder
+    And I open "Date and Time Fields and qrcode for testing and with Erdinger DataFields" document
+    And Tap on some field and send keys with "Test"
+    And Tap Done button
+    And Click on Search icon
+    And I am click on "Erdinger"
+    And I am put into fielad "Firma" a search pattern "gmbh"
+    Then I am watch search result by "Search results"
+    And All found elements should contain "gmbh"
+    And Click on random doc
+    And Save and Back to docs list
+    And I back to main screen
+    And User go to "drafts"
+    And Check contained text

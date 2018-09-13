@@ -78,6 +78,11 @@ public class UserActions {
         activities.checkEnteredText(driver);
     }
 
+    @And("^Check contained text$")
+    public void checkContainedText(){
+        activities.checkContainedText(driver);
+    }
+
     @And("^Check clear doc")
     public void checkEmptyDocument(){
         activities.checkEnteredTextNotPresent(driver);
@@ -92,5 +97,10 @@ public class UserActions {
     public void clickDiscardChanges(){
         activities.backToDocumentsList(driver);
         activities.clickOnDiscard(driver);
+    }
+
+    @And("^Click on Search icon$")
+    public void clickOnSearchIcon() {
+        activities.clickOnSearchIcon(driver);
     }
 }

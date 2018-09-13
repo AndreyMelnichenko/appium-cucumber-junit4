@@ -11,6 +11,7 @@ import utils.RandomMinMax;
 import utils.TimeConvertor;
 import utils.Waits;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -218,6 +219,13 @@ public class AppActivities {
         Assert.assertEquals(enteredText.trim(),text.trim().replace(",",""));
     }
 
+    public void checkContainedText(AppiumDriver driver){
+        String text = Waits.waitForElementPresent(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDraftFields']"),
+                "Cannot find entered text",5).getAttribute("text");
+        Assert.assertTrue(text.contains(enteredText.trim()));
+    }
+
     public void checkEnteredTextNotPresent(AppiumDriver driver){
         Assert.assertTrue(Waits.waitForElementNotPresent(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkDraftFields']"),
@@ -300,5 +308,17 @@ public class AppActivities {
         Waits.waitForElementAndClick(driver,
                 By.xpath("//*[@resource-id='de.modern_paper:id/buttonDelete']"),
                 "Cannot confirm Delete", 5);
+    }
+
+    public void openDocInDraft(AppiumDriver driver){
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/documentInWorkName']"),
+                "Cannot re-open doc",5);
+    }
+
+    public void clickOnSearchIcon(AppiumDriver driver) {
+        Waits.waitForElementAndClick(driver,
+                By.xpath("//*[@resource-id='de.modern_paper:id/read_top_bar_ly']/*[@class='android.widget.LinearLayout']/*[@class='android.widget.RelativeLayout']/*[@class='android.widget.LinearLayout'][2]/*[@class='android.widget.LinearLayout'][2]/*[@class='android.widget.ImageView']"),
+                "Cannot find Search icon", 5);
     }
 }
